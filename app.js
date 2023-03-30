@@ -1,7 +1,7 @@
 const express = require('express')
-const app = express()
-const tasks = require('./routes/tasks')
+const app = express();
 app.use(express.json());
+const {taskRouter} = require('./routes/tasks')
+app.use(taskRouter)
 
-const port = 3000
-app.listen(port,()=>console.log(`listening on port ${port}`))
+module.exports = {app}
