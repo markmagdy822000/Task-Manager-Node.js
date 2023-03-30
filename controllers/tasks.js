@@ -23,6 +23,7 @@ const addTask = (req,res)=>{
     res.send(task)
 }
 
+
 const deleteTask = (req,res)=>{
     const task = tasks.find(t => t.id === parseInt(req.params.id));
     if (!task)  return  res.status(404).send('Task not found');
