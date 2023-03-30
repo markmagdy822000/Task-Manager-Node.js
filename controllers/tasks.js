@@ -22,9 +22,21 @@ const addTask = (req,res)=>{
     tasks.push(task)
     res.send(task)
 }
+
+
+const deleteTask = (req,res)=>{
+    const task = tasks.find(t => t.id === parseInt(req.params.id));
+    if (!task)  return  res.status(404).send('Task not found');
+    const idx = tasks.indexOf(task);
+    tasks.splice(idx , 1);    //splice(position, number of items to delete) removes array elements
+    res.send(task)
+
+}
+
+
 module.exports={
     getAllTasks,
     getTaskById,
-    addTask
-    
+    addTask,
+    deleteTask    
 }
