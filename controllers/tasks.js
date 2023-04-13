@@ -6,10 +6,14 @@ const getAllTasks = (req,res)=>{
     res.send(tasks)
 }
  
-const getTaskById = (req,res)=>{
-    const task = tasks.find(t => t.id === parseInt(req.params.id));
-    res.send(task)
-}
+const getTaskById = async (req,res)=>{
+    try{
+        const task = await Task.find({_id: req.params.id}); //get all tasks
+        res.status(200).send(task);
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
  
 module.exports={
     getAllTasks,
