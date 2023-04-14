@@ -1,7 +1,17 @@
-const tasks = [
-    {id:1 , name:"JAVA",    isCompleted:true},
-    {id:2 , name:"C++",     isCompleted:false},
-    {id:3 , name:"Python",  isCompleted:false}
-];
+const mongoose = require('mongoose');
+const taskSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    isCompleted: {
+        type: Boolean,
+    },
+    password: {
+        type: String,
+        required: true
+    }
+});
+const  Task = mongoose.model('Task', taskSchema);
 
-module.exports ={ tasks }
+module.exports ={   Task }
