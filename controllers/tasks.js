@@ -17,7 +17,7 @@ const getTaskById = (req,res)=>{
     res.send(task)
 }
 
-// from postman
+
 const addTask = (req,res)=>{
     const result = validateTask(req.body)
     if(result.error) return res.status(400).send(result.error.details[0].message)
@@ -31,14 +31,26 @@ const addTask = (req,res)=>{
     res.send(task)
 }
 
-const deleteTask = (req,res)=>{
-    const task = tasks.find(t => t.id === parseInt(req.params.id));
-    if (!task)  return  res.status(404).send('Task not found');
-    const idx = tasks.indexOf(task);
-    tasks.splice(idx , 1);    //splice(position, number of items to delete) removes array elements
-    res.send(task)
 
+
+const deleteTask = async(req,res)=>{
+    try{
+
+        if(req.body.password == password) {
+            const task  = await Task.deleteOne({_id: req.params.id})
+            res.status(200).send(task)
+        } else {
+            res.status(400).send('wrong password!')
+
+
+        }
+
+    } catch(error)
+    {
+        res.status(400).send(error)
+    }
 }
+
 
 
 const updateTask = (req, res) => {
@@ -58,6 +70,7 @@ const updateTask = (req, res) => {
     res.status(200).json({ task })
   }
   
+
 module.exports={
     getAllTasks,
     getTaskById,
