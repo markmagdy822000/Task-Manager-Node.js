@@ -1,6 +1,5 @@
-const Joi = require('joi');
-const {tasks} =  require('../models/tasks')
-const {validateTask} = require('../helpers/validation') 
+const {Task} =  require('../models/tasks')
+
 
 const getAllTasks = (req,res)=>{
     res.send(tasks)
@@ -35,22 +34,26 @@ const deleteTask = (req,res)=>{
 }
 
 
-const updateTask = (req, res) => {
-    const { id: taskID } = req.params
-    let task = tasks.find(t => t.id === parseInt(req.params.id));
 
-    if (!task) {
-      return `No task with id : ${taskID}`
+const updateTask = async(req, res) => {
+    try{
+        if(req.body.password == password) {
+
+            const task = await Task.findOne({_id: req.params.id}); //get all tasks
+            if(!task)  return  res.status(404).send('task not found')
+            
+            if(req.body.name) task.name = req.body.name
+            if(req.body.isCompleted) task.isCompleted= req.body.isCompleted
+            
+            await task.save();
+            res.status(200).send(task);
+        }else {
+            res.status(400).send(error)
+        }
+    } catch(error) {
+        res.status(400).send(error);
     }
-    if(req.params.id)
-        task.id = parseInt(req.params.id)
-    if (req.body.name)
-        task.name= req.body.name
-    if(req.body.isCompleted )
-        task.isCompleted =req.body.isCompleted 
-
-    res.status(200).json({ task })
-  }
+}
   
 module.exports={
     getAllTasks,
