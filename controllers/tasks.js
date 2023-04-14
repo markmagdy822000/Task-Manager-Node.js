@@ -2,14 +2,22 @@ const Joi = require('joi');
 const {tasks} =  require('../models/tasks')
 const {validateTask} = require('../helpers/validation') 
 
-const getAllTasks = (req,res)=>{
-    res.send(tasks)
-}
- 
+const getAllTasks = async (req,res)=>{
+    try{
+        const allTasks = await Task.find({}); //get all tasks
+        res.status(200).send(allTasks);
+
+    } catch(error) {
+        res.status(400).send(error);
+    }
+};
+
 const getTaskById = (req,res)=>{
     const task = tasks.find(t => t.id === parseInt(req.params.id));
     res.send(task)
 }
+
+
 const addTask = (req,res)=>{
     const result = validateTask(req.body)
     if(result.error) return res.status(400).send(result.error.details[0].message)
@@ -24,6 +32,7 @@ const addTask = (req,res)=>{
 }
 
 
+
 const deleteTask = async(req,res)=>{
     try{
 
@@ -32,6 +41,7 @@ const deleteTask = async(req,res)=>{
             res.status(200).send(task)
         } else {
             res.status(400).send('wrong password!')
+
 
         }
 
@@ -43,9 +53,28 @@ const deleteTask = async(req,res)=>{
 
 
 
+const updateTask = (req, res) => {
+    const { id: taskID } = req.params
+    let task = tasks.find(t => t.id === parseInt(req.params.id));
+
+    if (!task) {
+      return `No task with id : ${taskID}`
+    }
+    if(req.params.id)
+        task.id = parseInt(req.params.id)
+    if (req.body.name)
+        task.name= req.body.name
+    if(req.body.isCompleted )
+        task.isCompleted =req.body.isCompleted 
+
+    res.status(200).json({ task })
+  }
+  
+
 module.exports={
     getAllTasks,
     getTaskById,
     addTask,
-    deleteTask    
+    deleteTask,
+    updateTask
 }
