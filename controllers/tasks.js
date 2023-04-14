@@ -12,8 +12,13 @@ const getAllTasks = async (req,res)=>{
 };
 
 const getTaskById = (req,res)=>{
-    const task = tasks.find(t => t.id === parseInt(req.params.id));
-    res.send(task)
+    try{
+        const task = await Task.find({_id: req.params.id}); //get all tasks
+        res.status(200).send(task);
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
 }
 
 
