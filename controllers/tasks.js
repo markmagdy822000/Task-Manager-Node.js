@@ -22,17 +22,20 @@ const getTaskById = (req,res)=>{
 }
 
 
-const addTask = (req,res)=>{
-    const result = validateTask(req.body)
-    if(result.error) return res.status(400).send(result.error.details[0].message)
-    
-    const task={
-        id: tasks.length + 1,
-        name:req.body.name,
-        isCompleted:req.body.isCompleted
-   }
-    tasks.push(task)
-    res.send(task)
+const addTask = async(req,res)=>{
+    try{
+        //authorization
+        if(req.body.password == password) {
+            const task = await Task.create(req.body)
+            res.status(200).send(task);
+
+        } else {
+            res.status(400).send('wrong password!')
+        }      
+    } catch(error) {
+        res.status(400).send(error);
+    }
+
 }
 
 
@@ -76,6 +79,7 @@ const updateTask = async(req, res) => {
     }
 }
   
+
 
 module.exports={
     getAllTasks,
