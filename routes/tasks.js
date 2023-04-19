@@ -7,6 +7,7 @@ taskRouter
     .get('/api/v1/tasks',taskController.getAllTasks)
     .get('/api/v1/tasks/getTaskById/:id',taskController.getTaskById)
     .get('/api/v1/tasks/percentageCompleted',taskController.percentageCompleted)
+    .get('/api/v1/tasks/getTasksAfterDate/:date',taskController.getTasksAfterDate)
 
     .post('/api/v1/tasks/:password',taskController.addTask)
 
