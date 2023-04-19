@@ -57,14 +57,14 @@ const addTask = async(req,res)=>{
 
 const deleteTask = async(req,res)=>{
     try{
-
-        if(req.body.password == password) {
-            const task  = await Task.deleteOne({_id: req.params.id})
-            res.status(200).send(task)
+        
+        if(req.params.password == password) {
+            const task  = await Task.findOne({_id: req.params.id})
+            if(!task) return res.status(400).send('task not found')
+            await Task.deleteOne({_id: req.params.id})
+            res.status(200).send(`${task.name} is deleted` )
         } else {
             res.status(400).send('wrong password!')
-
-
         }
 
     } catch(error)
@@ -76,7 +76,7 @@ const deleteTask = async(req,res)=>{
 
 const updateTask = async(req, res) => {
     try{
-        if(req.body.password == password) {
+        if(req.params.password == password) {
 
             const task = await Task.findOne({_id: req.params.id}); //get all tasks
             if(!task)  return  res.status(404).send('task not found')
@@ -84,7 +84,7 @@ const updateTask = async(req, res) => {
             if(req.body.name) task.name = req.body.name
             if(req.body.isCompleted) task.isCompleted= req.body.isCompleted
             if(req.body.archived) task.archived= req.body.archived
-
+            
             await task.save();
             res.status(200).send(task);
         }else {
