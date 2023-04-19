@@ -113,5 +113,6 @@ module.exports={
     addTask,
     deleteTask,
     updateTask,
+    getTaskByName,
     percentageCompleted
 }
