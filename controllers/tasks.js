@@ -120,6 +120,34 @@ const percentageCompleted = async (req,res)=>{
     }
 }
 
+
+
+const isCompleted = async (req,res)=>{
+    try{
+        const task = await Task.find({isCompleted: req.params.isCompleted});
+        res.status(200).send(task);
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
+}
+
+const deleteCompletedTasks = async(req, res)=>{
+    try{
+            const tasks  = await Task.find({isCompleted: req.params.isCompleted})
+            if(!tasks) return res.status(400).send('no tasks found')
+            
+            await Task.deleteMany({isCompleted: req.params.isCompleted})
+            res.status(200).send(tasks)
+    
+        } catch(error)
+        {
+            res.status(400).send(error)
+        }
+} 
+
+
+
 const getTasksAfterDate = async (req, res) => {
     const {date} = req.params;
   
