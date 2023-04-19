@@ -143,5 +143,6 @@ module.exports={
     updateTask,
     percentageCompleted,
     getTasksAfterDate,
-    getArchived
+    getArchived,
+    getTaskByName
 }
