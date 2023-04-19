@@ -81,6 +81,16 @@ const updateTask = async(req, res) => {
     }
 }
 
+const getTaskByName = async (req,res)=>{
+    try{
+        const task = await Task.find({name: {$regex:req.params.name}});
+        res.status(200).send(task);
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
+}
+
 
 const percentageCompleted = async (req,res)=>{
     try{
