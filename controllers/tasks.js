@@ -13,6 +13,18 @@ const getAllTasks = async (req,res)=>{
     }
 };
 
+
+const getArchived = async (req,res)=>{
+    try{
+        const task = await Task.find({archived: true });
+        res.status(200).send(task);
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
+}
+
+
 const getTaskById = (req,res)=>{
     try{
         const task = await Task.find({_id: req.params.id}); //get all tasks
@@ -70,11 +82,12 @@ const updateTask = async(req, res) => {
             
             if(req.body.name) task.name = req.body.name
             if(req.body.isCompleted) task.isCompleted= req.body.isCompleted
-            
+            if(req.body.archived) task.archived= req.body.archived
+
             await task.save();
             res.status(200).send(task);
         }else {
-            res.status(400).send(error)
+            res.status(400).send('wrong password')
         }
     } catch(error) {
         res.status(400).send(error);
@@ -129,5 +142,6 @@ module.exports={
     deleteTask,
     updateTask,
     percentageCompleted,
-    getTasksAfterDate
+    getTasksAfterDate,
+    getArchived
 }
