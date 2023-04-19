@@ -3,12 +3,15 @@ const taskRouter = Router()
 
 const taskController = require('../controllers/tasks')
 
-taskRouter
+taskRouter    
     .get('/api/v1/tasks',taskController.getAllTasks)
-    .post('/api/v1/tasks',taskController.addTask)
-    .get('/api/v1/tasks/:id',taskController.getTaskById)
-    .delete('/api/v1/tasks/:id',taskController.deleteTask)
-    .patch('/api/v1/tasks/:id',taskController.updateTask)
+    .get('/api/v1/tasks/getTaskById/:id',taskController.getTaskById)
+    .get('/api/v1/tasks/percentageCompleted',taskController.percentageCompleted)
 
+    .post('/api/v1/tasks/:password',taskController.addTask)
+
+    .delete('/api/v1/tasks/:password/:id/',taskController.deleteTask)
+
+    .patch('/api/v1/tasks/:password/:id',taskController.updateTask)
 
 module.exports = {taskRouter}
