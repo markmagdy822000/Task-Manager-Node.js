@@ -25,8 +25,11 @@ const getTaskById = (req,res)=>{
 const addTask = async(req,res)=>{
     try{
         //authorization
-        if(req.body.password == password) {
+        if(req.params.password == password) {
+            const result = validateTask(req.body)
+            if(result.error) return res.status(400).send(result.error.details[0].message)
             const task = await Task.create(req.body)
+            
             res.status(200).send(task);
 
         } else {
@@ -35,9 +38,7 @@ const addTask = async(req,res)=>{
     } catch(error) {
         res.status(400).send(error);
     }
-
 }
-
 
 
 const deleteTask = async(req,res)=>{
