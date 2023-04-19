@@ -106,6 +106,21 @@ const percentageCompleted = async (req,res)=>{
     }
 }
 
+const getTasksAfterDate = async (req, res) => {
+    const {date} = req.params;
+  
+    try {
+      const tasks = await Task.find({ dueDate: { $gte:date.toString()} });
+    //   res.json(tasks)
+      res.status(200).send(tasks)
+      if(!tasks) return res.send('no tasks found')
+
+    } catch (err) {
+      
+      res.status(500).json({ message: 'Server Error' });
+    }
+  };
+
 
 module.exports={
     getAllTasks,
@@ -113,5 +128,6 @@ module.exports={
     addTask,
     deleteTask,
     updateTask,
-    percentageCompleted
+    percentageCompleted,
+    getTasksAfterDate
 }
