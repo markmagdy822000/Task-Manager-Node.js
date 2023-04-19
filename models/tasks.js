@@ -7,6 +7,10 @@ const taskSchema = new mongoose.Schema({
     isCompleted: {
         type: Boolean,
     },
+    archived:{
+        type: Boolean,
+        required: true
+    },
     password: {
         type: String,
         required: true
