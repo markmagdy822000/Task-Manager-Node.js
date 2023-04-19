@@ -1,5 +1,7 @@
 const {Task} =  require('../models/tasks')
+const {validateTask} = require('../helpers/validation')
 
+password=1234
 
 const getAllTasks = async (req,res)=>{
     try{
@@ -78,7 +80,21 @@ const updateTask = async(req, res) => {
         res.status(400).send(error);
     }
 }
-  
+
+
+const percentageCompleted = async (req,res)=>{
+    try{
+ 
+        const allTasks = await Task.find({}); 
+        if(allTasks.length == 0 ) return res.send('no tasks found')
+        const completedTasks = await Task.find({isCompleted: true});
+        const percenatge = parseInt(completedTasks.length*100/allTasks.length)
+        res.status(200).send( percenatge.toString()+'%');
+        
+    } catch(error) {
+        res.status(400).send(error);
+    }
+}
 
 
 module.exports={
@@ -86,5 +102,6 @@ module.exports={
     getTaskById,
     addTask,
     deleteTask,
-    updateTask
+    updateTask,
+    percentageCompleted
 }
